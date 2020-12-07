@@ -3,9 +3,9 @@ const fs = require("fs")
 fs.readFile("input.txt", "utf-8", (err, data) => {
     let totalValids = 0
     if (err) throw err
-    const dataArray = data.split("\n")
+    const input = data.split("\n")
 
-    dataArray.forEach((value) => {
+    input.forEach((value) => {
         const startNum = parseInt(value.slice(value, value.indexOf("-")))
         const endNum = parseInt(value.slice(value.indexOf("-") + 1, value.indexOf(" ")))
         const key = value.slice(value.indexOf(" ") + 1, value.indexOf(": "))
@@ -18,5 +18,5 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
             totalValids++
         }
     })
-    console.log("TOTAL", totalValids)
+    console.log("TOTAL:", totalValids)
 })

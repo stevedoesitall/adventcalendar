@@ -3,13 +3,13 @@ const fs = require("fs")
 fs.readFile("input.txt", "utf-8", (err, data) => {
     let totalValids = 0
     if (err) throw err
-    const dataArray = data.split("\n")
+    const input = data.split("\n")
 
-    dataArray.forEach((value) => {
-        const startNum = parseInt(value.slice(value, value.indexOf("-")))
-        const endNum = parseInt(value.slice(value.indexOf("-") + 1, value.indexOf(" ")))
-        const key = value.slice(value.indexOf(" ") + 1, value.indexOf(": "))
-        const password = value.slice(value.indexOf(": ") + 2).split('')
+    input.forEach((line) => {
+        const startNum = parseInt(line.slice(line, line.indexOf("-")))
+        const endNum = parseInt(line.slice(line.indexOf("-") + 1, line.indexOf(" ")))
+        const key = line.slice(line.indexOf(" ") + 1, line.indexOf(": "))
+        const password = line.slice(line.indexOf(": ") + 2).split('')
 
         let keyCount = 0
 
@@ -23,5 +23,5 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
             totalValids++
         }
     })
-    console.log("TOTAL", totalValids)
+    console.log("TOTAL:", totalValids)
 })

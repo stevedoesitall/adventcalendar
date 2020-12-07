@@ -3,13 +3,14 @@ const total = 2020
 
 fs.readFile("input.txt", "utf-8", (err, data) => {
     if (err) throw err
-    const dataArray = data.split("\n")
+    const input = data.split("\n")
 
-    dataArray.forEach((firstNum) => {
-        dataArray.forEach((secondNum) => {
-            if (parseInt(firstNum) + parseInt(secondNum) === total) {
-                console.log(`The answer is ${firstNum * secondNum}`)
-            }
-        })
-    })
+    for (const line of input) {
+        const num = parseInt(line)
+        const remainder = total - num
+        if (input.includes(remainder.toString())) {
+            console.log(`The answer is ${remainder * num}`)
+            break
+        }
+    }
 })
