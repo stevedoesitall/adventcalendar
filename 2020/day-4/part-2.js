@@ -7,12 +7,12 @@ let totalValids = 0
 fs.readFile("input.txt", "utf-8", (err, data) => {
     if (err) throw err
 
-    const dataArray = data.split("\n")
+    const input = data.split("\n")
     const passports = []
     let passStart = ""
-    dataArray.forEach(item => {
-        if (item != "") {
-            passStart = passStart + item + " "
+    input.forEach(line => {
+        if (line != "") {
+            passStart = passStart + line + " "
         } else {
             passports.push(passStart)
             passStart = ""
@@ -108,10 +108,8 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
 
             if (byrStatus && iyrStatus && eyrStatus && eclStatus && pidStatus && hgtStatus && hclStatus) {
                 totalValids++
-                console.log(passport)
             }
         } 
-
     })
     console.log(totalValids)
 })
