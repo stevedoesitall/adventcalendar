@@ -1,13 +1,12 @@
 const fs = require("fs")
-const { parse } = require("path")
 
 const requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 const eyeColors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+let totalValids = 0
 
 fs.readFile("input.txt", "utf-8", (err, data) => {
     if (err) throw err
 
-    let totalValids = 0
     const dataArray = data.split("\n")
     const passports = []
     let passStart = ""
@@ -28,21 +27,91 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
             }
         })
         if (totalFields === requiredFields.length) {
-            const byr = passport.slice(passport.indexOf("byr:") + 4, passport.indexOf("byr:") + 8)
-            const iyr = passport.slice(passport.indexOf("iyr:") + 4, passport.indexOf("iyr:") + 8)
-            const eyr = passport.slice(passport.indexOf("eyr:") + 4, passport.indexOf("eyr:") + 8)
-            const ecl = passport.slice(passport.indexOf("ecl:") + 4, passport.indexOf("ecl:") + 7)
-            const pid = passport.slice(passport.indexOf("pid:") + 4, passport.indexOf("pid:") + 13) //Need to update this 
 
-            if (
-                (parseInt(byr) >= 1920 && parseInt(byr) <= 2002) &&
-                (parseInt(iyr) >= 2010 && parseInt(iyr) <= 2020) &&
-                (parseInt(eyr) >= 2020 && parseInt(eyr) <= 2030) &&
-                (eyeColors.includes(ecl)) &&
-                (parseInt(pid) > 0 && pid.length === 9)
-                ) {
-                    console.log(pid)
+            const getField = (field) => {
+                let fieldVar = passport.slice(passport.indexOf(field + ":") + 4)
+
+                if (fieldVar.indexOf(" ") !== -1) {
+                    fieldVar = fieldVar.slice(0, fieldVar.indexOf(" "))
+                }
+
+                return fieldVar
+            }
+
+            //Birth year check
+            const byr = getField("byr")
+            let byrStatus = false
+
+            if (parseInt(byr) >= 1920 && parseInt(byr) <= 2002) {
+                byrStatus = !byrStatus
+            }
+
+            //Issue year check
+            const iyr = getField("iyr")
+            let iyrStatus = false
+
+            if (parseInt(iyr) >= 2010 && parseInt(iyr) <= 2020) {
+                iyrStatus = !iyrStatus
+            }
+
+            //Expiration year check
+            const eyr = getField("eyr")
+            let eyrStatus = false
+
+            if (parseInt(eyr) >= 2020 && parseInt(eyr) <= 2030) {
+                eyrStatus = !eyrStatus
+            }
+
+            //Eye color check
+            const ecl = getField("ecl")
+            let eclStatus = false
+
+            if (eyeColors.includes(ecl)) {
+                eclStatus = !eclStatus
+            }
+
+            //Passport ID Check
+            const pid = getField("pid")
+            let pidStatus = false
+
+            if (parseInt(pid) > 0 && pid.length === 9) {
+                pidStatus = !pidStatus
+            }
+
+            //Hair color check
+            const hcl = getField("hcl")
+            let hclStatus = false
+            const regex = /[a-f0-9]/g
+
+            if (hcl.slice(0, 1) === "#" && hcl.slice(1).search(regex) !== -1 && hcl.length === 7) {
+                hclStatus = !hclStatus
+            }
+
+            //Height check
+            const hgt = getField("hgt")
+            let hgtStatus = false
+
+            const unit = hgt.slice(hgt.length - 2)
+            const hgtVal = parseInt(hgt.slice(0, hgt.indexOf(unit)))
+
+            if (unit === "cm" &&
+                hgtVal >= 150 &&
+                hgtVal <= 193
+            ) {
+                hgtStatus = !hgtStatus
+            } else if (unit === "in" &&
+                hgtVal >= 59 &&
+                hgtVal <= 76
+            ) {
+                hgtStatus = !hgtStatus
+            }
+
+            if (byrStatus && iyrStatus && eyrStatus && eclStatus && pidStatus && hgtStatus && hclStatus) {
+                totalValids++
+                console.log(passport)
             }
         } 
+
     })
+    console.log(totalValids)
 })

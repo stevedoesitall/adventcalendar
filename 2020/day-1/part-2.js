@@ -9,8 +9,6 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
         const num = parseInt(line)
         const remainder = total - num
 
-
-
         if (input.includes(remainder.toString())) {
             console.log(`The answer is ${remainder * num}`)
             break
