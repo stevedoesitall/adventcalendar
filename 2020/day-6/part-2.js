@@ -7,7 +7,7 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
     let totalAnswers = 0
 
     input.forEach(line => {
-        let group = line.split("\n")
+        const group = line.split("\n")
         let sameAnswers = []
 
         group.forEach((response, index) => {
