@@ -34,5 +34,5 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
         return accumulator * currentValue.totalTrees
     }, 1)
 
-    console.log(totalTrees)
+    console.log(`There are ${totalTrees} total trees.`)
 })

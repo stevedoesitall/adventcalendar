@@ -10,9 +10,9 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
     const input = data.split("\n")
     const passports = []
     let passStart = ""
-    input.forEach(line => {
-        if (line != "") {
-            passStart = passStart + line + " "
+    input.forEach(item => {
+        if (item != "") {
+            passStart = passStart + item + " "
         } else {
             passports.push(passStart)
             passStart = ""
@@ -27,7 +27,6 @@ fs.readFile("input.txt", "utf-8", (err, data) => {
             }
         })
         if (totalFields === requiredFields.length) {
-
             const getField = (field) => {
                 let fieldVar = passport.slice(passport.indexOf(field + ":") + 4)
 
